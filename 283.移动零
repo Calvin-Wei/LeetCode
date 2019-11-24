@@ -1,7 +1,7 @@
 class Solution {
     public void moveZeroes(int[] nums) {
-        int j=-1;
-        for(int i=0;i<nums.length;i++){
+        int j=-1;//j标识非0数字所在位置指针
+        for(int i=0;i<nums.length;i++){//i标识为探索指针
             if(nums[i]!=0){
                 j++;
                 int temp=nums[i];
