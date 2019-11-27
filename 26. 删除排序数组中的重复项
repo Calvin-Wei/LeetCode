@@ -1,0 +1,13 @@
+#26. 删除排序数组中的重复项
+1.双指针的写法代码执行时间超过100%
+public int removeDuplicates(int[] nums) {
+        int j=0;//双指针
+        for(int i=0;i<nums.length;i++){
+            if (nums[j]!=nums[i]){
+                nums[++j]=nums[i];//
+            }
+        }
+        return j+1;
+}
+
+
