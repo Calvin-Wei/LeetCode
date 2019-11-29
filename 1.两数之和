@@ -26,3 +26,19 @@ class Solution {
         return result;
     }
 }
+2.使用map解法--大幅度减少执行时间（推荐）
+将nums的数值放入到map当中，判断target-nums[i]的差值在map中是否存在，存在则从map中取出下标，直接返回
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        //key放下标索引，value放nums数组值
+        Map<Integer,Integer> param=new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int complement=target-nums[i];//判断差值在map中是否存在
+            if(param.containsKey(complement)){
+                return new int[]{param.get(complement),i};
+            }
+            param.put(nums[i],i);//nums放入map中
+        }
+        return new int[]{0,0};
+    }
+}
