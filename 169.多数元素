@@ -33,3 +33,10 @@ class Solution {
         return index;
     }
 }
+2.题解---最简便的写法
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length/2];
+    }
+}
