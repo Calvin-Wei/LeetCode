@@ -1,5 +1,4 @@
-import java.util.Stack;
-
+1.解法执行时间和消耗内存均较少
 public class MinStack {
 
     // 数据栈
@@ -16,7 +15,6 @@ public class MinStack {
     }
 
     // 思路 1：数据栈和辅助栈在任何时候都同步
-
     public void push(int x) {
         // 数据栈和辅助栈一定会增加元素
         data.add(x);
