@@ -1,0 +1,17 @@
+1.该解法的执行时间较长，消耗内存小
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        //放入第几天
+        Stack<Integer> tempStack=new Stack<>();
+        int[] result=new int[T.length];
+        for(int i=0;i<T.length;i++){
+            //栈中不为空且栈顶存放的温度小于循环数组中的温度,温度上升,计算几天后温度开始上升
+            while(!tempStack.isEmpty() && T[i]>T[tempStack.peek()]){
+                result[tempStack.peek()]=i-tempStack.peek();//几天后温度升高
+                tempStack.pop();//移除栈顶
+            }
+            tempStack.push(i);
+        }
+        return result;
+    }
+}
