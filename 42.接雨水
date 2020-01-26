@@ -1,5 +1,5 @@
 1.使用栈的题解
-public int trap6(int[] height) {
+public int trap(int[] height) {
     int sum = 0;
     Stack<Integer> stack = new Stack<>();
     int current = 0;
