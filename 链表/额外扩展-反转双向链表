@@ -1,0 +1,23 @@
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode prev;
+    ListNode(int x) {
+        val = x;
+    }
+}
+ 
+class Solution {
+    public ListNode reverseList(ListNode head){
+        ListNode pre=null;
+        ListNode next=null;
+        while(head!=null){
+            next=head.next;
+            head.next=pre;//两个节点的后继节点和前驱节点进行互换
+            head.prev=next;
+            pre=head;
+            head=next;
+        }
+        return pre;
+    }
+}

@@ -1,0 +1,34 @@
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode prev;
+    ListNode(int x) {
+        val = x;
+    }
+}
+ 
+class Solution {
+    public static ListNode removeLastKthNode(ListNode head,int index) {
+        ListNode cur=head;
+        while(cur!=null){
+            index--;
+            cur=cur.next;
+        }
+        if(index==0){//k节点是末尾的节点
+            head=head.next;
+            head.prev=null;
+        }
+        if(index<0){//k节点在中间位置
+            cur=head;
+            while(++index!=0){//从头结点重新开始寻找
+                cur=cur.next;
+            }
+            ListNode tempNode=cur.next.next;//tempNode为当前k节点后面的节点
+            cur.next=tempNode;
+            if(tempNode!=null){
+                tempNode.prev=cur;//prev指针连接--注意不能缺少
+            }
+        }
+        return head;
+    }
+}
