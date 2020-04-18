@@ -28,8 +28,16 @@
 N 的范围 [1, 30].
 K 的范围 [1, 2^(N-1)].
 
+1.
+class Solution {
+    public int kthGrammar(int N, int K) {
+        if (N == 1) return 0;
+        return (~K & 1) ^ kthGrammar(N-1, (K+1)/2);
+    }
+}
 
 
+2.内存溢出了
 class Solution {
     public int kthGrammar(int N, int K) {
         int[] lastrow = new int[1 << N];
