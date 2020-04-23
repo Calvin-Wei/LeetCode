@@ -1,0 +1,46 @@
+969. 煎饼排序
+给定数组 A，我们可以对其进行煎饼翻转：我们选择一些正整数 k <= A.length，然后反转 A 的前 k 个元素的顺序。我们要执行零次或多次煎饼翻转（按顺序一次接一次地进行）以完成对数组 A 的排序。
+
+返回能使 A 排序的煎饼翻转操作所对应的 k 值序列。任何将数组排序且翻转次数在 10 * A.length 范围内的有效答案都将被判断为正确。
+
+注意：该题目的题解是错误的
+
+// 思路：
+// 如果想把某个数移到你想到的位置，分两步：
+// 如：[3,2,4,1] 把4移动到最后面
+// k=3 --》把4移动到首位
+// k=4 --》把4移动到最后
+// 因此从i=A.length()-1开始，依次挑选最大的元素放在i位置
+class Solution {
+    public List<Integer> pancakeSort(int[] A) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=A.length-1;i>0;i--){
+            int index=maxIndex(A,i);
+            if(index>0){
+                reverse(A,index);
+                list.add(index+1);
+            }
+            reverse(A,i);
+            list.add(i+1);
+        }
+        return list;
+    }
+
+    private void reverse(int[] a, int index) {//反转
+        for(int i=0;i<=index/2;i++){
+            int tmp=a[i];
+            a[i]=a[index-i];
+            a[index-i]=tmp;
+        }
+    }
+
+    private int maxIndex(int[] a, int i) {//找到最大的数值下标索引
+        int index=0;
+        for(int k=1;k<=i;k++){
+            if(a[k]>a[index]){
+                index=k;
+            }
+        }
+        return index;
+    }
+}
