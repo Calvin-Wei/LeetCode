@@ -18,7 +18,26 @@
 如果 nums1 的大小比 nums2 小很多，哪种方法更优？
 如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？
 
-1.题解使用hashmap的解法，内存消耗较高
+1.使用排序的算法
+public int[] intersect(int[] nums1, int[] nums2) {
+		Arrays.sort(nums1);
+		Arrays.sort(nums2);
+		int i=0,j=0,k=0;//i为nums1的索引,j为nums2的索引,k为最终结果的索引,最终结果放在nums1数组当中进行截取显示
+		while( i<nums1.length && j<nums2.length ) {
+			if(nums1[i]<nums2[j]) {
+				i++;
+			}else if(nums1[i]>nums2[j]) {
+				j++;
+			}else {
+				nums1[k++]=nums2[j];
+				i++;
+				j++;
+			}
+		}
+		return Arrays.copyOfRange(nums1, 0, k);
+	}
+
+2.题解使用hashmap的解法，内存消耗较高
 class Solution {
     public int[] intersect(int[] nums1,int[] nums2) {
 		List<Integer> arrayList=new ArrayList<>();
