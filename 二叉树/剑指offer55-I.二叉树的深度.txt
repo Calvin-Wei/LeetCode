@@ -40,19 +40,25 @@ class Solution {
 		return Math.max(leftDepth, rightDepth);
 	}
 
+	/**
+	 * 第一次遍历currentDepth的深度为父节点的深度
+	 * @param node
+	 * @param currentDepth
+	 * @return
+	 */
 	private int search(TreeNode node, int currentDepth) {
 		if(node!=null) {
-			currentDepth++;
-			int leftDepth=currentDepth,rightDepth=currentDepth;
+			currentDepth++;//当前遍历节点不为空则深度+1
+			int leftDepth=currentDepth,rightDepth=currentDepth;//左侧树深度
 			if(node.left!=null) {
 				leftDepth=search(node.left, currentDepth);				
 			}
 			if(node.right!=null) {
-				rightDepth=search(node.right, currentDepth);
+				rightDepth=search(node.right, currentDepth);//右侧树深度
 			}
-			return Math.max(leftDepth, rightDepth);
+			return Math.max(leftDepth, rightDepth);//取最大深度
 		}else {
-			return currentDepth;			
+			return currentDepth;//为空则返回父节点的深度			
 		}
 	}
 }
