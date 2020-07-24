@@ -20,3 +20,22 @@ class Solution {
         return array;
     }
 }
+1.大顶堆解法
+public int[] smallestK(int[] arr, int k) {
+        if (k == 0 || arr.length == 0) {
+            return new int[0];
+        }
+        // 默认是小根堆，实现大根堆需要重写一下比较器。
+        Queue<Integer> pq = new PriorityQueue<>((v1, v2) -> v2 - v1);
+        for (int num: arr) {
+            if (pq.size() < k) {
+                //长度不够则添加
+                pq.offer(num);
+            } else if (num < pq.peek()) {
+                //队列首个元素大则移除，并重新添加
+                pq.poll();
+                pq.offer(num);
+            }
+        }
+        return  pq.stream().mapToInt(Integer::intValue).toArray();
+    }
