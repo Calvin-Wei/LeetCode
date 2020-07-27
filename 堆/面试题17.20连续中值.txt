@@ -1,0 +1,64 @@
+随机产生数字并传递给一个方法。你能否完成这个方法，在每次产生新值时，寻找当前所有值的中间值（中位数）并保存。
+
+中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。
+
+例如，
+
+[2,3,4] 的中位数是 3
+
+[2,3] 的中位数是 (2 + 3) / 2 = 2.5
+
+设计一个支持以下两种操作的数据结构：
+
+void addNum(int num) - 从数据流中添加一个整数到数据结构中。
+double findMedian() - 返回目前所有元素的中位数。
+示例：
+
+addNum(1)
+addNum(2)
+findMedian() -> 1.5
+addNum(3) 
+findMedian() -> 2
+
+1.使用大顶堆和小顶堆解决问题，最优解。
+	// 存储小于等于中位数的数，使用大顶堆
+    private PriorityQueue<Integer> left = new PriorityQueue<>(Comparator.reverseOrder());
+    // 存储大于等于中位数的数，使用小顶堆
+    private PriorityQueue<Integer> right = new PriorityQueue<>();
+    // left的元素数量和right的元素数量的差值。其合理范围只有0（left和right元素数量相同,偶数长度）和1（left比right的元素数量多1,奇数长度）
+    private int gap;
+
+    /**
+     * 使用一个大顶堆存储小于等于中位数的数，使用一个小顶堆存储大于等于中位数的数，
+     * 并且时刻保持大顶堆的元素数量等于小顶堆的元素数量（总元素数量为偶数），
+     * 或者大顶堆的元素数量比小顶堆的元素数量多1（总元素数量为奇数）。
+     * 当两个堆的元素数量相等的时候，中位数就是两个堆堆顶元素的平均数。
+     * 当大顶堆的数量比小顶堆的数量多1的时候，中位数就是大顶堆的堆顶元素。
+     * @param num
+     */
+    public void addNum(int num) {
+        // 当left为空或者num小于等于left中的最大值，将num插入left中
+        if (left.isEmpty() || num <= left.peek()) {
+            left.offer(num);
+            gap++;
+            // 如果插入后left的元素数量比right的元素数量多2，将left中的最大值取出，插入right中
+            if (gap >= 2) {
+                right.offer(left.poll());
+                gap -= 2;//将gap置为0，当前为偶数长度
+            }
+        }
+        // num大于left中的最大值，将num插入right中
+        else {
+            right.offer(num);
+            gap--;
+            // 如果插入后right中的元素比left中的元素多1，将right中的最小值取出，插入left中
+            if (gap <= -1) {
+                left.offer(right.poll());
+                gap += 2;//gap置为1，当前为奇数长度
+            }
+        }
+    }
+
+    public double findMedian() {
+        return gap == 0 ? (left.peek() + right.peek()) / 2.0 : left.peek();
+    }
