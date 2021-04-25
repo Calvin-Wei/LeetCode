@@ -1,0 +1,82 @@
+给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
+
+注意：答案中不可以包含重复的四元组。
+
+ 
+
+示例 1：
+
+输入：nums = [1,0,-1,0,-2,2], target = 0
+输出：[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+示例 2：
+
+输入：nums = [], target = 0
+输出：[]
+ 
+
+提示：
+
+0 <= nums.length <= 200
+-109 <= nums[i] <= 109
+-109 <= target <= 109
+
+
+
+1.题解
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> resultList=new ArrayList<>();
+        if(nums.length<4){
+            return resultList;
+        }
+        for(int i=0;i<nums.length-3;i++) {
+            //相邻的重复元素直接跳过(重复的结果集)
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            //前四个之和大于目标值
+            if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {
+                break;
+            }
+            //第一个+后三个元素小于目标值直接移动左侧指针
+            if (nums[i] + nums[nums.length - 1] + nums[nums.length - 2] + nums[nums.length - 3] < target) {
+                continue;
+            }
+            //第二个数
+            int left = i + 1;
+            //第二个数和倒数第二个
+            while (left < nums.length - 2) {
+                //左侧第三个数
+                int three = left + 1;
+                int end = nums.length - 1;
+                while (three < end) {
+                    int sum = nums[left] + nums[three] + nums[end] + nums[i];
+                    if (sum == target) {
+                        resultList.add(Arrays.asList(nums[i], nums[left], nums[three], nums[end]));
+                        //数据去重,从左侧第三个数开始去重
+                        while(three<end && nums[three]==nums[three+1]){
+                            three++;
+                        }
+                        //数据去重,从右侧第一个开始去重
+                        while(three<end && nums[end]==nums[end-1]){
+                            end--;
+                        }
+                        three++;
+                        end--;
+                    } else if (sum > target) {
+                        end--;
+                    } else {
+                        three++;
+                    }
+                }
+                //数据去重,从左侧第二个数开始去重
+                while(nums.length-2 > left && nums[left]==nums[left+1]){
+                    left++;
+                }
+                left++;
+            }
+        }
+        return resultList;
+    }
+}
