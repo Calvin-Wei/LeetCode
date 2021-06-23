@@ -1,0 +1,103 @@
+//给你一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。 
+//
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：n = 3
+//输出：[[1,2,3],[8,9,4],[7,6,5]]
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：n = 1
+//输出：[[1]]
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 1 <= n <= 20 
+// 
+// Related Topics 数组 
+// 👍 431 👎 0
+
+//最优解法，节省内存消耗
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] matrix=new int[n][n];
+        int index=1,max=n*n;
+        //a是横坐标最小,b是纵坐标最小,t和l代表横纵坐标最大值
+        int a=0,t=n-1,b=0,l=n-1;
+        while(index<=max){
+            //left to right
+            for(int i=b;i<=l;i++){
+                matrix[a][i]=index++;
+            }
+            a++;
+            //top to bottom
+            for(int i=a;i<=t;i++){
+                matrix[i][l]=index++;
+            }
+            l--;
+            //right to left
+            for(int i=l;i>=b;i--){
+                matrix[t][i]=index++;
+            }
+            t--;
+            //bottom to top
+            for(int i=t;i>=a;i--){
+                matrix[i][b]=index++;
+            }
+            b++;
+        }
+        return matrix;
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
+//2.常规解法,内存占用高
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] matrix=new int[n][n];
+        int tr=0,tc=0;
+        int dr=n-1,dc=n-1;
+        //当前元素值
+        int index=1;
+        while(tr<=dr && tc<=dc){
+            if(tc==dc){
+                for(int i=tr;i<=dr;i++){
+                    matrix[i][tc]=index++;
+                }
+            }else if(tr==dr){
+                for(int i=tc;i<=dc;i++){
+                    matrix[tr][i]=index++;
+                }
+            }else{
+                int curRow=tr,curColumn=tc;
+                while(curColumn<dc){
+                    matrix[curRow][curColumn++]=index++;
+                }
+                while(curRow<dr){
+                    matrix[curRow++][curColumn]=index++;
+                }
+                while(curColumn>tc){
+                    matrix[curRow][curColumn--]=index++;
+                }
+                while(curRow>tr){
+                    matrix[curRow--][curColumn]=index++;
+                }
+
+            }
+            tr++;
+            tc++;
+            dc--;
+            dr--;
+        }
+        return matrix;
+    }
+}
+
