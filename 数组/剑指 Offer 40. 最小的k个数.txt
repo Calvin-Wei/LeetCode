@@ -43,7 +43,7 @@ class Solution {
         }
         return kHeap;
     }
-
+    //调整堆
     private void heapify(int[] arr, int index, int heapSize) {
         int left=index*2+1;
         int right=index*2+2;
@@ -65,7 +65,7 @@ class Solution {
             right=index*2+2;
         }
     }
-
+    //创建堆
     public void heapInsert(int[] arr,int value,int index){
         arr[index]=value;
         while(index>0){
