@@ -67,7 +67,7 @@ class Solution {
             if(nums[left]%2==0){
                 swap(nums,left,end);
                 left+=2;
-            }else if(nums[right]%2!=0){
+            }else {
                 swap(nums,right,end);
                 right+=2;
             }
