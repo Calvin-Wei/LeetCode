@@ -53,4 +53,33 @@ class Solution {
         return ans;
     }
 }
+
+//双指针解法，left代表偶数的指针,right代表奇数的指针
+class Solution {
+    public int[] sortArrayByParityII(int[] nums) {
+        if(nums==null || nums.length<2){
+            return nums;
+        }
+        int left=0;
+        int right=1;
+        int end=nums.length-1;
+        while(left<=end && right<=end){
+            if(nums[left]%2==0){
+                swap(nums,left,end);
+                left+=2;
+            }else if(nums[right]%2!=0){
+                swap(nums,right,end);
+                right+=2;
+            }
+        }
+        return nums;
+    }
+
+    public void swap(int[] arr, int i, int j){
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+}
+
 //leetcode submit region end(Prohibit modification and deletion)
