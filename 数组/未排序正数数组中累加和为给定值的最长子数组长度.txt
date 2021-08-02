@@ -1,0 +1,25 @@
+给定一个无序数组arr，其中元素可正、可负、可0，给定一个整数k。求arr所有的子数组中累加和为k的最长子数组长度。
+
+补充题目
+
+给定一个无序数组arr，其中元素可正、可负、可0。求arr所有的子数组中正数与负数个数相等的最长子数组长度
+给定一个无序数组arr，其中元素只是1或0。求arr所有的子数组中0和1个数相等的最长子数组长度
+效率
+时间复杂度:O(n)O(n)
+空间复杂度:O(n)O(n)
+
+public int getMaxLength(int[] arr,int k){
+        int left=0,right=0;
+        int len=0,sum=0;
+        while(right<arr.length){
+            if(sum<k){
+                sum+=arr[right++];
+            }else if (sum==k){
+                len=Math.max(len,right-left+1);
+                sum-=arr[left++];
+            }else {
+                sum-=arr[left++];
+            }
+        }
+        return len;
+    }
