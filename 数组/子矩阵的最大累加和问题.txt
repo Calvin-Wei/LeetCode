@@ -1,0 +1,21 @@
+public int maxSubMatrix(int[][] nums){
+        if(nums==null || nums.length==0 || nums[0].length==0){
+            return 0;
+        }
+        int max=Integer.MIN_VALUE;
+        int sum=0;
+        int[] s =null;
+        for(int i=0;i<nums.length;i++){
+            s=new int[nums[0].length];
+            for(int index=i;index<nums.length;index++){
+                sum=0;
+                for(int j=0;j<s.length;j++){
+                    s[j]+=nums[index][j];
+                    sum+=s[j];
+                    max=Math.max(max,sum);
+                    sum= Math.max(sum, 0);
+                }
+            }
+        }
+        return max;
+    }
