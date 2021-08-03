@@ -30,8 +30,11 @@ class Solution {
         int minEnd;
         int result=nums[0];
         for(int i=1;i<nums.length;i++){
+            //计算处于结尾时的最大乘积,例如3,4,5算到5的时候
             maxEnd=max*nums[i];
+            //计算处于结尾时的最小乘积,负数的乘积,-2,3,-4算到-4的时候
             minEnd=min*nums[i];
+            //可能仅是单个元素值,0,0,1000单个元素为最大累乘积
             max=Math.max(Math.max(maxEnd,minEnd),nums[i]);
             min=Math.min(Math.min(maxEnd,minEnd),nums[i]);
             result=Math.max(result,max);
