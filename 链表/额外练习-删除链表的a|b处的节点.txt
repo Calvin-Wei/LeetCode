@@ -1,0 +1,20 @@
+public static Node removeAOrBNode(Node node,int a,int b){
+        int n=0;
+        Node cur=node;
+        while(cur!=null){
+            n++;
+            cur=cur.next;
+        }
+        n= (int) Math.ceil((double)(a*n)/(double) b);
+        assert node != null;
+        if(n==1){
+            node=node.next;
+            return node;
+        }
+        cur=node;
+        while(--n!=1){
+            cur=cur.next;
+        }
+        cur.next=cur.next.next;
+        return node;
+    }
