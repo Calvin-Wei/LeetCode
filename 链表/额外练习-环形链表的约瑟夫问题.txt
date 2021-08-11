@@ -1,0 +1,75 @@
+class Node {
+    public int value;
+    public Node next;
+    public Node(){
+
+    }
+    public Node(int value){
+        this.value=value;
+    }
+    public Node(int value,Node next){
+        this.value=value;
+        this.next=next;
+    }
+}
+public class Test {
+
+    /**
+     * 常规解法
+     */
+    public static Node josephusKill(Node head,int m){
+        if(head==null || head.next==head || m<1){
+            return head;
+        }
+        Node last=head;
+        int count=0;
+        //将last指针移动到环形链表的最后一个节点
+        while(last.next!=head){
+            last=last.next;
+        }
+        //开始进行计算m
+        while(last!=head){
+            count++;
+            if(count==m){
+                last.next=head.next.next;
+                count=0;
+            }else {
+                last=last.next;
+            }
+            head=head.next;
+        }
+        return head;
+    }
+
+    public static Node josephusKillBest(Node head,int m){
+        if(head==null || head.next==head || m<1){
+            return head;
+        }
+        Node last=head.next;
+        int temp=1;
+        //遍历环形链表计算节点数
+        while(last!=head){
+            last=last.next;
+            temp++;
+        }
+        //查找第几个节点是最后存活的节点
+        temp=getLive(temp,m);
+        //找到最后存活的节点，改为环形链表
+        while(temp-->0){
+            head=head.next;
+        }
+        head.next=head;
+        return head;
+    }
+
+    private static int getLive(int temp, int m) {
+        if(temp==1){
+            return temp;
+        }
+        return (getLive(temp-1,m)+m-1)%temp+1;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
