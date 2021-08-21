@@ -63,4 +63,40 @@ class Solution {
         return true;
     }
 }
+//高效
+public boolean isPalindrome(ListNode head) {
+        if(head==null || head.next==null){
+            return true;
+        }
+        ListNode n1=head;
+        ListNode n2=head;
+        //找到中间节点，然后将链表折半，左半部分和右半部分链表判断是否相同
+        while(n2.next!=null && n2.next.next !=null){ //查找中间节点
+            n1=n1.next;//中部
+            n2=n2.next.next;//结尾
+        }
+        n2=n1.next;//右部分第一个节点
+        n1.next=null;//左半部分 mid.next->null
+        ListNode temp=null;
+        //反转右半区链表
+        while(n2!=null){//右半区第一个节点
+            temp=n2.next;//n3 保存下一个节点
+            n2.next=n1;//下一个反转节点
+            n1=n2;//n1移动
+            n2=temp;//n2移动
+        }
+        //左半区的第一个节点
+        n2=head;
+        //检查回文链表
+        boolean res=true;
+        while(n1!=null && n2!=null){
+            if(n1.val != n2.val){
+                res=false;
+                break;
+            }
+            n1=n1.next;
+            n2=n2.next;
+        }
+        return res;
+    }
 //leetcode submit region end(Prohibit modification and deletion)
