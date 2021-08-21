@@ -82,7 +82,7 @@ public boolean isPalindrome(ListNode head) {
         while(n2!=null){//右半区第一个节点
             temp=n2.next;//n3 保存下一个节点
             n2.next=n1;//下一个反转节点
-            n1=n2;//n1移动
+            n1=n2;//n1移动(回到第一个节点)
             n2=temp;//n2移动
         }
         //左半区的第一个节点
