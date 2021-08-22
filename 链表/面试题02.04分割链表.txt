@@ -42,10 +42,10 @@
  */
 class Solution {
     public ListNode partition(ListNode head, int x) {
-        ListNode sH=null;
-        ListNode sT=null;
-        ListNode bH=null;
-        ListNode bT=null;
+        ListNode sH=null;//小链表的头
+        ListNode sT=null;//小链表的尾
+        ListNode bH=null;//大链表的头
+        ListNode bT=null;//大链表的尾
         ListNode temp=null;
         while(head!=null){
             temp= head.next;
@@ -55,7 +55,8 @@ class Solution {
                     sH=head;
                     sT=head;
                 }else {
-                    sT.next=head;
+                    //尾指针指向头结点,这样做容易链表进行判空,判断头结点即可
+                    sT.next=null;
                     sT=head;
                 }
             }else {
@@ -63,7 +64,7 @@ class Solution {
                     bH=head;
                     bT=head;
                 }else {
-                    bT.next=head;
+                    bT.next=null;
                     bT=head;
                 }
             }
