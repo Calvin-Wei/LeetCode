@@ -1,0 +1,67 @@
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode() {
+    }
+
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+class ExtraPractise{
+
+    public static ListNode selectionSort(ListNode head){
+        //排序部分尾部
+        ListNode tail=null;
+        //未排序部分的头部
+        ListNode cur=head;
+        //最小节点的前一个节点
+        ListNode smallPre=null;
+        //最小的节点
+        ListNode small=null;
+        while(cur!=null){
+            small=cur;
+            smallPre=getSmallestPreNode(cur);
+            //将最小节点的前一个节点进行插入
+            if(smallPre!=null){
+                small=smallPre.next;
+                smallPre.next=small.next;
+            }
+            cur=cur==small?cur.next:cur;
+            if(tail==null){
+                head=small;
+            }else {
+                tail.next=small;
+            }
+            tail=small;
+        }
+        return head;
+    }
+
+    public static ListNode getSmallestPreNode(ListNode head){
+        //最小节点的前一个节点
+        ListNode smallPre=null;
+        //最小节点
+        ListNode small=head;
+        //前一个节点
+        ListNode pre=head;
+        ListNode cur=head.next;
+        while(cur!=null){
+            if(cur.val<small.val){
+                smallPre=pre;
+                small=cur;
+            }
+            pre=cur;
+            cur=cur.next;
+        }
+        return smallPre;
+    }
+
+}
