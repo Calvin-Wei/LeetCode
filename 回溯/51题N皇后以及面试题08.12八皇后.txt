@@ -35,6 +35,17 @@
 // 
 // Related Topics 数组 回溯 👍 1019 👎 0
 
+void backtracking(参数) {
+    if (终止条件) {
+        存放结果;
+        return;
+    }
+    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {
+        处理节点;
+        backtracking(路径，选择列表); // 递归
+        回溯，撤销处理结果
+    }
+}
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution{
@@ -55,9 +66,13 @@ class Solution{
             return;
         }
         for(int col=0;col<n;col++){
+            //验证合法
             if(isValid(row,col,n,chessboard)){
+                //放置皇后
                 chessboard[row][col]='Q';
+                //因为每一行只会放置一个元素,不用校验行
                 backTrack(n,row+1,chessboard);
+                //回溯，撤销皇后
                 chessboard[row][col]='.';
             }
         }
@@ -70,13 +85,13 @@ class Solution{
                 return false;
             }
         }
-        //左侧对角线
+        //左侧对角线，校验元素的左上侧有无元素
         for(int i=row-1,j=col-1;i>=0 && j>=0;i--,j--){
             if(chessboard[i][j]=='Q'){
                 return false;
             }
         }
-        //右侧对角线
+        //右侧对角线，校验元素的右上侧有无元素
         for(int i=row-1,j=col+1;i>=0 && j<=n-1;i--,j++){
             if(chessboard[i][j]=='Q'){
                 return false;
