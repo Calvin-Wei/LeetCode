@@ -1,0 +1,82 @@
+//给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重
+//复的三元组。 
+//
+// 注意：答案中不可以包含重复的三元组。 
+//
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：nums = [-1,0,1,2,-1,-4]
+//输出：[[-1,-1,2],[-1,0,1]]
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：nums = []
+//输出：[]
+// 
+//
+// 示例 3： 
+//
+// 
+//输入：nums = [0]
+//输出：[]
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 0 <= nums.length <= 3000 
+// -10⁵ <= nums[i] <= 10⁵ 
+// 
+// Related Topics 数组 双指针 排序 👍 3899 👎 0
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> resultList=new ArrayList<>();
+        if(nums == null || nums.length<3){
+            return resultList;
+        }
+        //先排序
+        Arrays.sort(nums);
+        for(int left=0;left<nums.length;left++){
+            if(nums[left]>0){
+                return resultList;
+            }
+            //重复的元素题解去重
+            if(left>0 && nums[left]==nums[left-1]){
+                continue;
+            }
+            int index=left+1,right=nums.length-1;
+            while(index<right){
+                int sum=nums[left]+nums[index]+nums[right];
+                if(sum==0){
+                    //找到目标组合
+                    resultList.add(Arrays.asList(nums[left],nums[index],nums[right]));
+                    //查看数组后面是否存在当前相同的组合，如果存在则跳过
+                    while (index<right && nums[index]==nums[index+1]){
+                        index++;
+                    }
+                    while (index<right && nums[right]==nums[right-1]){
+                        right--;
+                    }
+                    index++;
+                    right--;
+                }else if(sum>0){
+                    right--;
+                }else {
+                    index++;
+                }
+            }
+        }
+        return resultList;
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
