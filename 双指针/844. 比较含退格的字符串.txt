@@ -88,7 +88,7 @@ class Solution {
                     break;
                 }
             }
-            //如果有剩余，则
+            //如果有一个剩余，则代表当前两个字符串不一致，如果都有剩余，遍历剩余的字符串是否相同
             if(i>=0 && j>=0){
                 if(s.charAt(i)!=t.charAt(j)){
                     return false;
