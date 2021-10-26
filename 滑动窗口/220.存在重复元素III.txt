@@ -39,8 +39,12 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        //维护k长度的滑动窗口,判断区间为nums[i]+t,nums[i]-t
+        //实现方面，我们在滑动窗口中查找大于等于 x−t 的最小的元素 y，如果 y 存在，且 y≤x+t，我们就找到了一对符合条件的元素。
+        // 完成检查后，我们将 x 插入到滑动窗口中，如果有序集合中元素数量超过了 k，我们将滑动窗口中最早被插入的元素删除即可。
         TreeSet<Long> set = new TreeSet<>();
         for (int i = 0; i < nums.length; i++) {
+            //相当于查找nums[j]>=abs(nums[i]-t),如果找到则判断是否比num[i]+t小
             Long ceiling = set.ceiling((long) nums[i] - (long) t);
             if (ceiling != null && ceiling <= (long) nums[i] + (long) t) {
                 return true;
