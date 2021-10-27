@@ -32,6 +32,28 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+//高效双指针、滑动窗口
+public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if(k<=1)
+            return 0;
+        int ans = 0;
+        //j是滑动窗口的左侧索引边界,i是滑动窗口的右侧索引边界
+        int j = 0;
+        int multiple = 1;
+        for (int i = 0; i < nums.length; i++) {
+            //窗口正常向右侧拉伸
+            multiple *= nums[i];
+            //当窗口拉伸到右侧大于等于k时,则移动左侧窗口索引
+            while (multiple >= k) {
+                //缩短左侧窗口索引时，乘积移出窗口左侧元素
+                multiple /= nums[j];
+                j++;
+            }
+            //如果此时i-j+1是以右边界的乘积小于k的所有子数组的个数和
+            ans += (i - j + 1);
+        }
+        return ans;
+    }
 class Solution {
     public int numSubarrayProductLessThanK(int[] nums, int k) {
         int ans=0;
