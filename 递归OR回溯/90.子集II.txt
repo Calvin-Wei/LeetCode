@@ -1,0 +1,81 @@
+//给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。 
+//
+// 解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。 
+//
+// 
+// 
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：nums = [1,2,2]
+//输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：nums = [0]
+//输出：[[],[0]]
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 1 <= nums.length <= 10 
+// -10 <= nums[i] <= 10 
+// 
+// 
+// 
+// Related Topics 位运算 数组 回溯 
+// 👍 682 👎 0
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    private List<List<Integer>> result;
+    private LinkedList<Integer> path;
+
+    private boolean[] visited;
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        this.result=new ArrayList<>();
+        if(nums.length==0){
+            this.result.add(new ArrayList<>());
+            return result;
+        }
+        Arrays.sort(nums);
+        this.path=new LinkedList<>();
+        visited=new boolean[nums.length];
+        handleWithDup(nums,0);
+        return result;
+    }
+
+    private void handleWithDup(int[] nums, int index) {
+        result.add(new ArrayList<>(path));
+        if(index>=nums.length){
+            return;
+        }
+        for(int i=index;i<nums.length;i++){
+            // 如果当前元素和前一个元素相同，而且前一个元素没有被访问(代表前一个元素已经被回溯处理完成)，则直接跳过
+            //表面上，continue条件应该是前一个元素被使用过，这里跟正常逻辑相悖； 仔细想想，如果used[i - 1]被标记为1， 说明该元素刚被使用过且未回溯，那么就算第i个元素和第i-1个元素相等，也可以放心大胆地加到sublist里面，因为加入以后一定比之前元素多一个，不会重复； 相反，如果used[i - 1]被标记为0， 因为现在已经访问到之后的元素了，之前元素一定是被访问过的，那么被标0只有一种可能，就是该元素已经被回溯过了，此时必须跳过当前元素，否则会重复，因为list里面已经有相同的sublist.
+            if(i>0 && nums[i]==nums[i-1] && !visited[i-1]){
+                continue;
+            }
+            path.add(nums[i]);
+            visited[i]=true;
+            handleWithDup(nums,i+1);
+            path.removeLast();
+            visited[i]=false;
+        }
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
