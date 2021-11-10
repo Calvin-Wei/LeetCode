@@ -72,6 +72,38 @@ class Node {
     }
 };
 */
+//空间复杂度低
+class Solution {
+    public Node connect(Node root) {
+        if(root==null){
+            return null;
+        }
+        Node cur=root;
+        while(cur!=null){
+            //遍历当前层的时候，为了方便操作在下一层前面添加一个哑结点dummy,dummy.next就是下一层的链表
+            // 注意这里是访问当前层的节点，然后把下一层的节点串起来
+            Node dummy=new Node();
+            //cur的下一层节点链表
+            Node pre=dummy;
+            while(cur!=null){
+                //左子树不为空,就让pre节点的next指向他，也就是把它串起来作为一个链表
+                if(cur.left!=null){
+                    pre.next=cur.left;
+                    pre=pre.next;
+                }
+                if(cur.right!=null){
+                    pre.next=cur.right;
+                    pre=pre.next;
+                }
+                //继续访问这一行的下一个节点
+                cur=cur.next;
+            }
+            //dummy.next相当于当前层的下一层节点组成的链表
+            cur=dummy.next;
+        }
+        return root;
+    }
+}
 
 //效率较低
 class Solution {
