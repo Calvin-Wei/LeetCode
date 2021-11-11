@@ -111,12 +111,15 @@ class Solution {
         if(root==null)
             return null;
         Queue<Node> queue=new LinkedList<>();
+        //先添加根节点
         queue.offer(root);
-
         while(!queue.isEmpty()){
+            //当前层的节点数量
             int size= queue.size();
+            //pre节点是当前层的链表
             Node pre=null;
             for(int i=0;i<size;i++){
+                //挨个弹出当前层的节点
                 Node cur=queue.poll();
                 if(pre!=null){
                     pre.next=cur;
