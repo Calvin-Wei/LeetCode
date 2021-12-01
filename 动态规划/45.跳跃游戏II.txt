@@ -57,4 +57,22 @@ class Solution {
         return step;
     }
 }
+//时间复杂度O(n)
+class Solution {
+    public int jump(int[] nums) {
+        //end代表这一次跳跃的位置
+        int rightPos = 0, end = 0;
+        int step = 0;
+        //从左到右进行跳跃,计算出跳跃的最合适的最大路径则step+1
+        for (int i = 0; i < nums.length - 1; i++) {
+            rightPos=Math.max(i+nums[i],rightPos);
+            //将end的值变为下一次跳跃的值,然后step+1
+            if(i==end){
+                end=rightPos;
+                step++;
+            }
+        }
+        return step;
+    }
+}   
 //leetcode submit region end(Prohibit modification and deletion)
