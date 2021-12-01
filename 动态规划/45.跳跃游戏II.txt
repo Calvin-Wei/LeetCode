@@ -36,6 +36,25 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+
+//最简单容易理解的解法
+class Solution {
+    public int jump(int[] nums) {
+        int step=0,next=0,cur=0;
+        //假定每个位置都是1,一步步的跳跃到最后一个位置
+        for(int i=0;i<nums.length;i++){
+            //当跳跃的位置大于当前位置时,步数+1，然后当前位置改为跳跃后的位置
+            if(i>cur){
+                step++;
+                cur=next;
+            }
+            //计算下一次跳跃的最远位置
+            next=Math.max(nums[i]+i,next);
+        }
+        return step;
+    }
+}
+
 //反向查找o(n^2)
 class Solution {
     public int jump(int[] nums) {
