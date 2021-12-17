@@ -76,4 +76,40 @@ class Solution {
         return resultArray;
     }
 }
+//二分查找,先寻找target所在位置,然后左移和右移计算第一个和最后一个位置
+class Solution {
+    /**
+     * 在排序数组中查找元素的第一个和最后一个位置
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int index=binarySearch(nums,target);
+        if(index==-1){
+            return new int[]{-1,-1};
+        }
+        int left=index,right=index;
+        while(left-1>=0 && nums[left-1]==target){
+            left--;
+        }
+        while(right+1<nums.length && nums[right+1]==target){
+            right++;
+        }
+        return new int[]{left,right};
+    }
+
+    private int binarySearch(int[] nums,int target){
+        int left=0,right=nums.length-1;
+        while(left<=right){
+            int mid=(right-left)/2+left;
+            if(nums[mid]==target){
+                return mid;
+            }else if(nums[mid]<target){
+                left=mid+1;
+            }else {
+                right=mid-1;
+            }
+        }
+        return -1;
+    }
+}
+
 //leetcode submit region end(Prohibit modification and deletion)
