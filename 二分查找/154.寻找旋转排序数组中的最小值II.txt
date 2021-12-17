@@ -1,0 +1,82 @@
+//已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,4,4,5,6,7] 在变
+//化后可能得到：
+// 
+// 若旋转 4 次，则可以得到 [4,5,6,7,0,1,4] 
+// 若旋转 7 次，则可以得到 [0,1,4,4,5,6,7] 
+// 
+//
+// 注意，数组 [a[0], a[1], a[2], ..., a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], 
+//..., a[n-2]] 。 
+//
+// 给你一个可能存在 重复 元素值的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。 
+//
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：nums = [1,3,5]
+//输出：1
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：nums = [2,2,2,0,1]
+//输出：0
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// n == nums.length 
+// 1 <= n <= 5000 
+// -5000 <= nums[i] <= 5000 
+// nums 原来是一个升序排序的数组，并进行了 1 至 n 次旋转 
+// 
+//
+// 
+//
+// 进阶： 
+//
+// 
+// 这道题是 寻找旋转排序数组中的最小值 的延伸题目。 
+// 允许重复会影响算法的时间复杂度吗？会如何影响，为什么？ 
+// 
+// Related Topics 数组 二分查找 👍 430 👎 0
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    /**
+     * 肯定将nums分为两个有序的数组，分别为nums1和num2，并且假设nums1中的元素均大于等于num2中的元素
+     * 那么我们要求的元素就是nums2的首元素
+     * 如果nums[mid] > nums[right],说明此时的mid严格的在nums1当中。那么nums2的首元素设为i的话，就应当是：mid < i <= right。
+     *     取left = mid + 1;
+     * 如果nums[mid] < nums[right],说明此时的mid严格的在nums2当中。也就是：mid <= i < right
+     *     取right = mid
+     * 如果nums[mid] == nums[right],细分为三种情况。
+     *         情况一：[1,1,1,1,1,1,1,1]
+     *         情况二：[4,5,6,7,1,1,1,1,1,1]
+     *         情况二：[4,5,6,7,0,1,1,1,1,1]
+     *     取right--便可
+     */
+    public int findMin(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        int mid = (right - left) / 2 + left;
+        while (left <= right) {
+            if (nums[right] > nums[mid]) {
+                right = mid;
+            } else if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right--;
+            }
+            mid = (right - left) / 2 + left;
+        }
+        return nums[mid];
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
