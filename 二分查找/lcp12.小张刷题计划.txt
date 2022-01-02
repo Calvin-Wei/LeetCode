@@ -78,7 +78,7 @@ class Solution {
                 if(day>m){
                     return false;
                 }
-                //sum和max更新为新组的值
+                //sum和max更新为新组的值,这里的目的是为了计算下一个新的一天的分配
                 sum=time[cur];
                 max=time[cur];
             }
