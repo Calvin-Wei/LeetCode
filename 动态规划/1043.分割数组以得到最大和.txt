@@ -47,6 +47,29 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+//执行效率高
+class Solution {
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int length = arr.length;
+        int[] dp = new int[length + 1];
+        //i指针是从左到右开始遍历整个数组
+        for (int i = 0; i <= length; i++) {
+            //j指针是前i-1个数组从右到左
+            int j = i - 1;
+            int max = dp[i];
+            //i-j就是两个指针中间需要计算的,i-j范围内的最大值*(i-j)+前j个元素的最大和,与dp[i]进行比大小,则为dp[i]的最大值
+            //转移方程：dp[i]=max(dp[i],dp[j]+(i-j)*MAX),max是局部子数组的最大值
+            while ((i - j) <= k && j >= 0) {
+                max = Math.max(max, arr[j]);
+                dp[i] = Math.max(dp[i], dp[j] + max * (i - j));
+                j--;
+            }
+        }
+        return dp[length];
+    }
+}
+
+
 class Solution {
     public int maxSumAfterPartitioning(int[] arr, int k) {
         //dp数组表示前i个元素，分割为长度小于等于k数组的元素最大和
