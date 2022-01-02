@@ -51,7 +51,6 @@ class Solution {
     public int maxSumAfterPartitioning(int[] arr, int k) {
         //dp数组表示前i个元素，分割为长度小于等于k数组的元素最大和
         int[] dp = new int[arr.length];
-        //首次for循环先将dp数组存放前i个元素，分割为最大长度k数组的最大元素值
         for (int i = 1; i <= k; i++) {
             dp[i-1]=getMaxValue(arr,0,i-1)*i;
         }
