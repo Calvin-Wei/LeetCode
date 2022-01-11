@@ -1,0 +1,79 @@
+//给你一个整数数组 nums，请你将该数组升序排列。 
+//
+// 
+//
+// 
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：nums = [5,2,3,1]
+//输出：[1,2,3,5]
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：nums = [5,1,1,2,0,0]
+//输出：[0,0,1,1,2,5]
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 1 <= nums.length <= 5 * 10⁴ 
+// -5 * 10⁴ <= nums[i] <= 5 * 10⁴ 
+// 
+// Related Topics 数组 分治 桶排序 计数排序 基数排序 排序 堆（优先队列） 归并排序 👍 453 👎 0
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    /**
+     * 归并排序
+     */
+    public int[] sortArray(int[] nums) {
+        if (nums == null || nums.length < 2) {
+            return nums;
+        }
+        process(nums, 0, nums.length - 1);
+        return nums;
+    }
+
+    private void mergeSort(int[] nums, int left, int mid, int right) {
+        int[] help = new int[right - left + 1];
+        int index = 0;
+        int begin = left;
+        int end = mid + 1;
+        while (begin <= mid && end <= right) {
+            if (nums[begin] <= nums[end]) {
+                help[index++] = nums[begin++];
+            } else {
+                help[index++] = nums[end++];
+            }
+        }
+        while (begin <= mid) {
+            help[index++] = nums[begin++];
+        }
+        while (end <= right) {
+            help[index++] = nums[end++];
+        }
+        for (int item : help) {
+            nums[left++] = item;
+        }
+    }
+
+    private void process(int[] nums, int left, int right) {
+        if (left == right) {
+            return;
+        }
+        int mid = (right - left) / 2 + left;
+        process(nums, left, mid);
+        process(nums, mid + 1, right);
+        mergeSort(nums, left, mid, right);
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
