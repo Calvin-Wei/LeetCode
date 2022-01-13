@@ -1,0 +1,131 @@
+//给你一个整数数组 nums ，按要求返回一个新数组 counts 。数组 counts 有该性质： counts[i] 的值是 nums[i] 右侧小于 
+//nums[i] 的元素的数量。 
+//
+// 
+//
+// 示例 1： 
+//
+// 
+//输入：nums = [5,2,6,1]
+//输出：[2,1,1,0] 
+//解释：
+//5 的右侧有 2 个更小的元素 (2 和 1)
+//2 的右侧仅有 1 个更小的元素 (1)
+//6 的右侧有 1 个更小的元素 (1)
+//1 的右侧有 0 个更小的元素
+// 
+//
+// 示例 2： 
+//
+// 
+//输入：nums = [-1]
+//输出：[0]
+// 
+//
+// 示例 3： 
+//
+// 
+//输入：nums = [-1,-1]
+//输出：[0,0]
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 1 <= nums.length <= 10⁵ 
+// -10⁴ <= nums[i] <= 10⁴ 
+// 
+// Related Topics 树状数组 线段树 数组 二分查找 分治 有序集合 归并排序 👍 718 👎 0
+
+
+import java.util.List;
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        int len = nums.length;
+        if (len == 0) {
+            return result;
+        }
+
+        int[] temp = new int[len];
+        int[] res = new int[len];
+
+        // 索引数组，作用：归并回去的时候，方便知道是哪个下标的元素
+        int[] indexes = new int[len];
+        for (int i = 0; i < len; i++) {
+            indexes[i] = i;
+        }
+        mergeAndCountSmaller(nums, 0, len - 1, indexes, temp, res);
+
+        // 把 int[] 转换成为 List<Integer>，没有业务逻辑
+        for (int i = 0; i < len; i++) {
+            result.add(res[i]);
+        }
+        return result;
+    }
+
+    /**
+     * 针对数组 nums 指定的区间 [left, right] 进行归并排序，在排序的过程中完成统计任务
+     *
+     * @param nums
+     * @param left
+     * @param right
+     */
+    private void mergeAndCountSmaller(int[] nums, int left, int right, int[] indexes, int[] temp, int[] res) {
+        if (left == right) {
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        mergeAndCountSmaller(nums, left, mid, indexes, temp, res);
+        mergeAndCountSmaller(nums, mid + 1, right, indexes, temp, res);
+
+        // 归并排序的优化，如果索引数组有序，则不存在逆序关系，没有必要合并
+        if (nums[indexes[mid]] <= nums[indexes[mid + 1]]) {
+            return;
+        }
+        mergeOfTwoSortedArrAndCountSmaller(nums, left, mid, right, indexes, temp, res);
+    }
+
+    /**
+     * [left, mid] 是排好序的，[mid + 1, right] 是排好序的
+     *
+     * @param nums
+     * @param left
+     * @param mid
+     * @param right
+     * @param indexes
+     * @param temp
+     * @param res
+     */
+    private void mergeOfTwoSortedArrAndCountSmaller(int[] nums, int left, int mid, int right, int[] indexes, int[] temp, int[] res) {
+        for (int i = left; i <= right; i++) {
+            temp[i] = indexes[i];
+        }
+
+        int i = left;
+        int j = mid + 1;
+        for (int k = left; k <= right; k++) {
+            if (i > mid) {
+                indexes[k] = temp[j];
+                j++;
+            } else if (j > right) {
+                indexes[k] = temp[i];
+                i++;
+                res[indexes[k]] += (right - mid);
+            } else if (nums[temp[i]] <= nums[temp[j]]) {
+                // 注意：这里是 <= ，保证稳定性
+                indexes[k] = temp[i];
+                i++;
+                res[indexes[k]] += (j - mid - 1);
+            } else {
+                indexes[k] = temp[j];
+                j++;
+            }
+        }
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
