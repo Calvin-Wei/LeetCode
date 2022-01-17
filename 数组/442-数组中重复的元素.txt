@@ -12,6 +12,32 @@
 输出:
 [2,3]
 
+
+class Solution {
+        /**
+     * 原地hash算法,每个元素放在对应元素值的位置上,如果值与下标索引不对应,则证明有重复元素.一个萝卜对应一个坑位
+     */
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> resultList = new ArrayList<>();
+        for(int i=0;i<nums.length;i++){
+            while(nums[nums[i]-1]!=nums[i]){
+                swap(nums,i,nums[i]-1);
+            }
+        }
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]!=i+1){
+                resultList.add(nums[i]);
+            }
+        }
+        return resultList;
+    }
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+
 1.该解法执行时间较慢--仅超过20%
 class Solution {
     public List<Integer> findDuplicates(int[] nums) {
