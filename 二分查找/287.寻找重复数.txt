@@ -59,22 +59,26 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public int findDuplicate(int[] nums){
+    public int findDuplicate(int[] nums) {
+        //注意left和right为数值的区间不是nums数组的下标
         int left=0,right=nums.length-1;
         while(left<=right){
+            //计算中间数值小于等于的个数
             int mid=(right-left)/2+left;
             int count=0;
-            for(int items:nums){
-                if(mid>=items){
+            for(int item:nums){
+                if(item<=mid){
                     count++;
                 }
             }
-            if(count>=mid){
+            // 假设mid=4小于等于4的数只能为[1,2,3,4]4个如果大于4个说明[1,4]有重复数字
+            if(count>mid){
                 right=mid-1;
             }else {
                 left=mid+1;
             }
         }
+        //此处说明Left=right为重复数字
         return left;
     }
 }
