@@ -48,6 +48,7 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int lengthOfLongestSubstring(String s) {
+        //滑动窗口
         //key存放字符,value存放字符位置+1(加1表示从字符位置后一个才开始不重复)
         Map<Character, Integer> map = new HashMap<>();
         int len = s.length(), ans = 0;
