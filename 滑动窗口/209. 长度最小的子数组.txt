@@ -49,24 +49,25 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public int minSubArrayLen(int target, int[] nums) {
+    public int minSubArray(int target, int[] nums) {
         int min = nums.length;
-        //滑动窗口的左边界
+        //窗口的左右边界
         int left = 0;
+        //当前元素的和
         int sum = 0;
-        boolean flag=false;
-        //滑动窗口的右边界
+        boolean flag = false;
         for (int right = 0; right < nums.length; right++) {
-            //滑动窗口向右侧扩展
             sum += nums[right];
-            //当扩展的滑动窗口大于target,则将滑动窗口的左侧索引进行剔除移动,并计算最小长度值
+            //如果当前元素和>=target
             while (sum >= target) {
-                min = Math.min(min,right-left+1);
-                sum-=nums[left];
+                //取之前窗口长度与当前窗口长度最短的
+                min = Math.min(min, right - left + 1);
+                //去掉左侧数据
+                sum -= nums[left];
+                //移动窗口的左指针
                 left++;
-                flag=true;
+                flag = true;
             }
-
         }
         return flag ? min : 0;
     }
