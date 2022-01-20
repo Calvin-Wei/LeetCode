@@ -1,0 +1,59 @@
+//输入一个字符串，打印出该字符串中字符的所有排列。 
+//
+// 
+//
+// 你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。 
+//
+// 
+//
+// 示例: 
+//
+// 输入：s = "abc"
+//输出：["abc","acb","bac","bca","cab","cba"]
+// 
+//
+// 
+//
+// 限制： 
+//
+// 1 <= s 的长度 <= 8 
+// Related Topics 字符串 回溯 👍 485 👎 0
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    List<String> result=new LinkedList<>();
+    char[] c;
+
+    public String[] permutation(String s){
+        c=s.toCharArray();
+        dfs(0);
+        return result.toArray(new String[0]);
+    }
+
+    private void dfs(int index) {
+        //全排列记录
+        if(index==c.length-1){
+            result.add(String.valueOf(c));
+            return;
+        }
+        HashSet<Character> set=new HashSet<>();
+        for (int i=index;i<c.length;i++){
+            //扫描到了重复的字符
+            if(set.contains(c[i]))
+                continue;
+            set.add(c[i]);
+            //先交换后恢复
+            swap(i,index);
+            dfs(index+1);
+            swap(i,index);
+        }
+    }
+
+    private void swap(int i,int j){
+        char temp=c[i];
+        c[i]=c[j];
+        c[j]=temp;
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
