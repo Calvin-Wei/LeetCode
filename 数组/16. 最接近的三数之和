@@ -22,24 +22,24 @@
 class Solution {
     public int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);
-        int before=nums[0]+nums[1]+nums[2];
-        for(int i=0;i<nums.length;i++){
-            int begin=i+1,end=nums.length-1;
-            while(begin<end){
-                int result=nums[i]+nums[begin]+nums[end];
-                if(Math.abs(before-target) > Math.abs(result-target)){
-                    before=result;
+        int result = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length; i++) {
+            int left = i + 1, right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[left] + nums[right] + nums[i];
+                //如果差值比上次小则记录
+                if (Math.abs(sum - target) < Math.abs(result - target)) {
+                    result = sum;
                 }
-                if(result>target){
-                    end--;
-                    continue;
-                }else if(result<target){
-                    begin++;
-                    continue;
+                if (sum > target) {
+                    right--;
+                } else if (sum < target) {
+                    left++;
+                } else {
+                    return result;
                 }
-                return before;
             }
         }
-        return before;
+        return result;
     }
 }
