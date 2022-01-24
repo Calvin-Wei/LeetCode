@@ -47,17 +47,19 @@
  */
 class Solution {
     public ListNode removeElements(ListNode head, int val) {
-        ListNode listNode=new ListNode(0);
-        listNode.next=head;
-        ListNode result=listNode;
-        while(result.next!=null){
-            if(result.next.val==val){
-                result.next=result.next.next;
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode cur = head;
+        while (cur != null) {
+            if(cur.val==val){
+                prev.next=cur.next;
             }else {
-                result=result.next;
+                prev=cur;
             }
+            cur=cur.next;
         }
-        return listNode.next;
+        return dummy.next;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
