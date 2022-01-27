@@ -38,8 +38,9 @@ class Solution {
         if (head == null || head.next == null) {
             return head;
         }
-        ListNode odd = head;
+        //奇偶节点进行拆分处理even为偶节点,odd为奇节点
         ListNode even = head.next;
+        ListNode odd = head;
         ListNode evenHead = head.next;
         while (even != null && even.next != null) {
             odd.next = even.next;
@@ -47,6 +48,7 @@ class Solution {
             even.next = odd.next;
             even = even.next;
         }
+        //最后将偶节点进行拼接
         odd.next = evenHead;
         return head;
     }
