@@ -47,3 +47,32 @@ public class MinStack {
         throw new RuntimeException("栈中元素为空，此操作非法");
     }
 }
+
+class MinStack{
+    // 数组栈, [当前值, 当前最小值]
+    private final Stack<int[]> stack = new Stack<>();
+
+    public MinStack() {
+
+    }
+
+    public void push(int x) {
+        if (stack.isEmpty()){
+            stack.push(new int[]{x, x});
+        }else {
+            stack.push(new int[]{x, Math.min(x, stack.peek()[1])});
+        }
+    }
+
+    public void pop() {
+        stack.pop();
+    }
+
+    public int top() {
+        return stack.peek()[0];
+    }
+
+    public int getMin() {
+        return stack.peek()[1];
+    }
+}
