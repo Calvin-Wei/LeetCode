@@ -20,3 +20,36 @@ public int trap(int[] height) {
     }
     return sum;
 }
+2.双指针的题解
+class Solution {
+    public int trap(int[] heights) {
+        int sum = 0;
+        for (int i = 0; i < heights.length; i++) {
+            //第一个和最后一个不接雨水
+            if (i == 0 || i == heights.length - 1) {
+                continue;
+            }
+            //寻找右边最大的柱子
+            int right = heights[i];
+            //寻找左边最大的柱子
+            int left = heights[i];
+
+            for (int t = i + 1; t < heights.length; t++) {
+                if(heights[t]>right){
+                    right=heights[t];
+                }
+            }
+            for (int t=i-1;t>=0;t--){
+                if(heights[t]>left){
+                    left=heights[t];
+                }
+            }
+
+            int h=Math.min(left,right)-heights[i];
+            if(h>0){
+                sum+=h;
+            }
+        }
+        return sum;
+    }
+}
