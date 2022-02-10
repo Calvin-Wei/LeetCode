@@ -53,3 +53,30 @@ class Solution {
         return sum;
     }
 }
+3.动态规划解法
+class Solution {
+    public int trap(int[] heights) {
+        if(heights.length<=2){
+            return 0;
+        }
+        int[] leftArray=new int[heights.length];
+        int[] rightArray=new int[heights.length];
+        int size=heights.length;
+        leftArray[0]=heights[0];
+        for(int i=1;i<size;i++){
+            leftArray[i]=Math.max(heights[i],leftArray[i-1]);
+        }
+        rightArray[size-1]=heights[size-1];
+        for (int i=size-2;i>=0;i--){
+            rightArray[i]=Math.max(heights[i],rightArray[i+1]);
+        }
+        int sum=0;
+        for(int i=0;i<size;i++){
+            int count=Math.min(leftArray[i],rightArray[i])-heights[i];
+            if(count>0){
+                sum+=count;
+            }
+        }
+        return sum;
+    }
+}
