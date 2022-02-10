@@ -1,26 +1,45 @@
 1.使用栈的题解
-public int trap(int[] height) {
-    int sum = 0;
-    Stack<Integer> stack = new Stack<>();
-    int current = 0;
-    while (current < height.length) {
-        //如果栈不空并且当前指向的高度大于栈顶高度就一直循环
-        while (!stack.empty() && height[current] > height[stack.peek()]) {
-            int h = height[stack.peek()]; //取出要出栈的元素
-            stack.pop(); //出栈
-            if (stack.empty()) { // 栈空就出去
-                break; 
+public int trap(int[] height){
+        int size = height.length;
+
+        if (size <= 2) return 0;
+
+        // 栈中存放height的下标索引,单调递增
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        int sum = 0;
+        for (int index = 1; index < size; index++){
+            int stackTop = stack.peek();
+            //递增的放入栈中
+            if (height[index] < height[stackTop]){
+                stack.push(index);
+            }else if (height[index] == height[stackTop]){
+                // 因为相等的相邻墙，左边一个是不可能存放雨水的，所以pop左边的index, push当前的index
+                stack.pop();
+                stack.push(index);
+            }else{
+                //如果栈顶的元素小,则弹出
+                int heightAtIdx = height[index];
+                while (!stack.isEmpty() && (heightAtIdx > height[stackTop])){
+                    //mid是凹槽的底部，也就是中间位置
+                    int mid = stack.pop();
+                    //弹出栈顶的小元素后,计算盛水的容量
+                    if (!stack.isEmpty()){
+                        //left是凹槽最左边的柱子的下标
+                        int left = stack.peek();
+                        //index当前位置是凹槽最右侧的柱子的下标
+                        int h = Math.min(height[left], height[index]) - height[mid];
+                        int w = index - left - 1;
+                        int hold = h * w;
+                        if (hold > 0) sum += hold;
+                        stackTop = stack.peek();
+                    }
+                }
+                stack.push(index);
             }
-            int distance = current - stack.peek() - 1; //两堵墙之前的距离。
-            int min = Math.min(height[stack.peek()], height[current]);
-            sum = sum + distance * (min - h);
         }
-        stack.push(current); //当前指向的墙入栈
-        current++; //指针后移
-    }
-    return sum;
-}
-2.双指针的题解
+        return sum;
+    }2.双指针的题解
 class Solution {
     public int trap(int[] heights) {
         int sum = 0;
