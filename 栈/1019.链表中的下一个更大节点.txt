@@ -51,7 +51,7 @@
 class Solution {
     public int[] nextLargerNodes(ListNode head) {
         int[] ans = new int[10000];
-        //单调栈中0位置存放对应的下标索引和1位置下个更大的数值
+        //单调栈中1位置存放对应的下标索引和0位置下个更大的数值
         Deque<int[]> deque = new ArrayDeque<>();
         ListNode cur = head;
         int count = 0;
