@@ -9,39 +9,41 @@
 输入: [2,1,5,6,2,3]
 输出: 10
 
-public class Solution {
-
+class Solution {
+    /**
+     * 当遇到A柱子的高度比上一个B柱子高度小,则确定该A柱子之前一些柱子的最大宽度。从A的下标开始往左移动
+     * 确定面积时除了右边的高度小，左边的高度也要比中间小
+     * 单调栈中记录的还是下标（单调递减）
+     * 原数组进行扩展，左右两侧添加两个高度为0的柱子（比原数组中的任意元素都小）
+     * 单调栈也存放一个0的柱子，用做哨兵
+     */
     public int largestRectangleArea(int[] heights) {
-        int len = heights.length;
-        if (len == 0) {
+        if (heights == null || heights.length == 0) {
             return 0;
         }
+        int len = heights.length;
         if (len == 1) {
             return heights[0];
         }
-
-        int area = 0;
+        int res = 0;
         int[] newHeights = new int[len + 2];
-        for (int i = 0; i < len; i++) {
-            newHeights[i + 1] = heights[i];
-        }
-        len += 2;
-        heights = newHeights;
-
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.addLast(0);
-
-        for (int i = 1; i < len; i++) {
-            while (heights[stack.peekLast()] > heights[i]) {
-                int height = heights[stack.removeLast()];
-                int width  = i - stack.peekLast() - 1;
-                area = Math.max(area, width * height);
+        newHeights[0] = 0;
+        System.arraycopy(heights, 0, newHeights, 1, len);
+        newHeights[len + 1] = 0;
+        Deque<Integer> deque = new ArrayDeque<>(len);
+        deque.addLast(0);
+        for (int i = 1; i < len+2; i++) {
+            while (newHeights[i] < newHeights[deque.peekLast()]) {
+                int curHeight=newHeights[deque.pollLast()];
+                int curWidth=i-deque.peekLast()-1;
+                res=Math.max(res,curHeight*curWidth);
             }
-            stack.addLast(i);
+            deque.addLast(i);
         }
-        return area;
+        return res;
     }
 }
+
 1.
 class Solution {
     int largestRectangleArea(int[] heights) {
