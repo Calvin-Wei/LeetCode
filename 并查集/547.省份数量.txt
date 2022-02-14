@@ -45,7 +45,10 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class UnionFind {
+    //并查集和树有些类似,只不过跟树相反,树中是每个节点会记录它的子节点,在并查集里,每个节点会记录它的父节点
+    //key是当前节点,value是父节点
     private Map<Integer, Integer> father;
+    //记录集合的数量
     private int numOfSets = 0;
 
     public UnionFind() {
@@ -53,6 +56,9 @@ class UnionFind {
         this.numOfSets = 0;
     }
 
+    /**
+     * 当新节点添加到并查集中，它的父节点应该为空
+     */
     public void add(int x) {
         if (!father.containsKey(x)) {
             father.put(x, null);
@@ -60,6 +66,9 @@ class UnionFind {
         }
     }
 
+    /**
+     * 如果两个节点是连通的（祖先相同），那么就需要把他们合并，谁当父节点是没有区别的
+     */
     public void merge(int x, int y) {
         int rootX = find(x);
         int rootY = find(y);
@@ -69,6 +78,9 @@ class UnionFind {
         }
     }
 
+    /**
+     * 查找祖先,父节点不为空则一直迭代
+     */
     private int find(int x) {
         int root = x;
         while (father.get(root) != null) {
@@ -82,6 +94,9 @@ class UnionFind {
         return root;
     }
 
+    /**
+     * 两个节点是否相通,判断他们的祖先是否相同
+     */
     public boolean isConnected(int x, int y) {
         return find(x) == find(y);
     }
