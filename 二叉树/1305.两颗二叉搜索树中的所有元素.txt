@@ -1,0 +1,99 @@
+//给你 root1 和 root2 这两棵二叉搜索树。请你返回一个列表，其中包含 两棵树 中的所有整数并按 升序 排序。. 
+//
+// 
+//
+// 示例 1： 
+//
+// 
+//
+// 
+//输入：root1 = [2,1,4], root2 = [1,0,3]
+//输出：[0,1,1,2,3,4]
+// 
+//
+// 示例 2： 
+//
+// 
+//
+// 
+//输入：root1 = [1,null,8], root2 = [8,1]
+//输出：[1,1,8,8]
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 每棵树的节点数在 [0, 5000] 范围内 
+// -10⁵ <= Node.val <= 10⁵ 
+// 
+// Related Topics 树 深度优先搜索 二叉搜索树 二叉树 排序 👍 75 👎 0
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> result = new ArrayList<>();
+        List<Integer> array = new ArrayList<>();
+        dfs(root1, result);
+        dfs(root2, array);
+        return merge(result, array);
+    }
+
+    /**
+     * 合并两个list集合
+     */
+    private List<Integer> merge(List<Integer> leftList, List<Integer> rightList) {
+        List<Integer> ansList = new ArrayList<>();
+        int size1 = leftList.size();
+        int size2 = rightList.size();
+        int index1, index2;
+        for (index1 = 0, index2 = 0; index1 < size1 && index2 < size2;) {
+            int num1=leftList.get(index1);
+            int num2=rightList.get(index2);
+            if(num1<num2){
+                ansList.add(num1);
+                index1++;
+            }else {
+                ansList.add(num2);
+                index2++;
+            }
+        }
+        while(index1<size1){
+            ansList.add(leftList.get(index1++));
+        }
+        while(index2<size2){
+            ansList.add(rightList.get(index2++));
+        }
+        return ansList;
+    }
+
+    /**
+     * 中序遍历
+     */
+    private void dfs(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        dfs(root.left, list);
+        list.add(root.val);
+        dfs(root.right, list);
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
