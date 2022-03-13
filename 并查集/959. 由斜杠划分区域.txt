@@ -1,0 +1,133 @@
+//在由 1 x 1 方格组成的 n x n 网格 grid 中，每个 1 x 1 方块由 '/'、'\' 或空格构成。这些字符会将方块划分为一些共边的区域。 
+//
+//
+// 给定网格 grid 表示为一个字符串数组，返回 区域的数量 。 
+//
+// 请注意，反斜杠字符是转义的，因此 '\' 用 '\\' 表示。 
+//
+// 
+//
+// 
+// 
+//
+// 示例 1： 
+//
+// 
+//
+// 
+//输入：grid = [" /","/ "]
+//输出：2 
+//
+// 示例 2： 
+//
+// 
+//
+// 
+//输入：grid = [" /","  "]
+//输出：1
+// 
+//
+// 示例 3： 
+//
+// 
+//
+// 
+//输入：grid = ["/\\","\\/"]
+//输出：5
+//解释：回想一下，因为 \ 字符是转义的，所以 "/\\" 表示 /\，而 "\\/" 表示 \/。
+// 
+//
+// 
+//
+// 提示： 
+//
+// 
+// n == grid.length == grid[i].length 
+// 1 <= n <= 30 
+// grid[i][j] 是 '/'、'\'、或 ' ' 
+// 
+// Related Topics 深度优先搜索 广度优先搜索 并查集 图 
+// 👍 299 👎 0
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
+class Solution {
+    public int regionsBySlashes(String[] grid){
+        int regions=1;
+        int N=grid.length;
+        //n*n的图，节点数就是(n+1)*(n+1)
+        int nodesPerLine=N+1;
+        UnionFind uf=new UnionFind(nodesPerLine*nodesPerLine);
+        for(int i=0;i<N+1;i++){
+            //把边都合并起来,以2*2为例
+            /*
+                0,1,2
+                3,4,5
+                6,7,8
+             */
+            //合并0行,0,1,2
+            uf.union(0,i);
+            //合并0列,0,3,6
+            uf.union(0,i*nodesPerLine);
+            //合并最后行 6,7,8
+            uf.union(N*nodesPerLine,N*nodesPerLine+i);
+            //合并最后列 2,5,8
+            uf.union(N,(i+1)*nodesPerLine-1);
+        }
+
+        for(int i=0;i<N;i++){
+            char[] ca=grid[i].toCharArray();
+            for(int j=0;j<ca.length;j++){
+                char c=ca[j];
+                //左上角点
+                int leftTop=i*nodesPerLine+j;
+                int top;
+                int bottom;
+                if (c == '/') {
+                    top=leftTop+1;
+                    bottom=leftTop+nodesPerLine;
+                }else if(c== '\\'){
+                    top=leftTop;
+                    bottom=leftTop+nodesPerLine+1;
+                }else {
+                    continue;
+                }
+                //合并失败则区域数+1
+                if(!uf.union(top,bottom)){
+                    regions++;
+                }
+            }
+        }
+        return regions;
+    }
+    private static class UnionFind{
+        private final int[] roots;
+        UnionFind(int n){
+            this.roots=new int[n];
+            for(int i=0;i<n;i++){
+                this.roots[i]=i;
+            }
+        }
+
+        int findRoot(int i){
+            if(roots[i]==i){
+                return roots[i];
+            }else {
+                roots[i]=findRoot(roots[i]);
+                return roots[i];
+            }
+        }
+
+        boolean union(int i,int j){
+            int rootA=findRoot(i);
+            int rootB=findRoot(j);
+            if(rootA!=rootB){
+                roots[rootB]=rootA;
+                return true;
+            }
+            return false;
+        }
+
+    }
+}
+//leetcode submit region end(Prohibit modification and deletion)
