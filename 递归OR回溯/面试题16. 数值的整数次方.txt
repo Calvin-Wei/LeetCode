@@ -26,12 +26,23 @@ n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
 采用分治法进行解决的原因是为了防止出现内存溢出或者执行超时的问题
 分治：若n=2k，则结果为(x^k)^2; 若n=2k+1，则结果为x*[(x^k)^2]; 如此可让n的值每次减半，复杂度O(logn)。
 class Solution {
-    public double myPow(double x, int n) {
-		if(n==0) return 1;
-        double half = myPow(x,n/2);
-        if(n%2==0) return half*half;
-        if(n>0) return half*half*x;
-        return half*half/x;
+    public double myPow(double m,int n){
+        if(m==0){
+            return 0;
+        }
+        long b=n;
+        double res=1.0;
+        if(b<0){
+            m=1/m;
+            b=-b;
+        }
+        while(b>0){
+            if(b%2==1){
+                res*=m;
+            }
+            m*=m;
+            b/=2;
+        }
+        return res;
     }
-
 }
